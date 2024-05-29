@@ -2,10 +2,9 @@ import React from 'react'
 import { Outlet } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+// import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import Login from '../../pages/auth/Login';
 import MenuBar from '../MenuBar';
 
 const RootLayout = () => {
@@ -14,10 +13,10 @@ const RootLayout = () => {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container >
-          <Grid>
+          <Grid xs={2}>
             <MenuBar/>
           </Grid>
-          <Grid>
+          <Grid xs={10}>
             <Outlet/>
           </Grid>
         </Grid>

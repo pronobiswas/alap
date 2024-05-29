@@ -5,6 +5,14 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { FcGoogle } from "react-icons/fc";
+import Button from '@mui/material/Button';
+
+
+
+import LoginImages from '../../component/Utilities/loginImage.webp'
+import Images from '../../component/Utilities/Images';
+import { Link } from 'react-router-dom';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,20 +28,33 @@ const Login = () => {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
-          <Grid item xs={6}>
-            <Item>
-              <div className="menubar">
-                <h1>
-                  Get started with easily register
+          <Grid item xs={6} className='center'>
+            
+              <div className="loginBox">
+                <h1 className='loginHeadding'>
+                Login to your account!
                 </h1>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" className='inputTxt'/>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" className='inputTxt'/>
-                
+                <div className="logInWithGoogle">
+                  <span className='logInWithGoogleIcon'><FcGoogle /></span>
+                  <span className='logInWithGoogleTxt'>Login with Google</span>
+                </div>
+                <div className="inputTxt">
+                  <TextField id="outlined-basic" label="Email Address" variant="standard" className='inputItem'/>
+                </div>
+                <div className="inputTxt">
+                  <TextField id="outlined-basic" label="Password" variant="standard" className='inputItem'/>
+                </div>
+                <Button variant="contained" className='loginBtn'>LogIn to Continue</Button>
+                <p>
+                  Don’t have an account ? <Link to="/reg">Sign Up</Link>
+                </p>
               </div>
-            </Item>
+            
           </Grid>
           <Grid item xs={6}>
-            <Item>xs=4</Item>
+            <div className="loginImgBox">
+              <Images source={LoginImages} alt="logIn Images" styleing="loginImg"/>
+            </div>
           </Grid>
         </Grid>
       </Box>

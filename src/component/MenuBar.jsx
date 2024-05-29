@@ -1,17 +1,10 @@
 import React from 'react'
-import './style.css'
 
 const MenuBar = () => {
   return (
     <>
-      <div className="menu">
-        <ul>
-          <li>home</li>
-          <li>home</li>
-          <li>home</li>
-          <li>home</li>
-          <li>home</li>
-        </ul>
+      <div id="menuComponent">
+        <h1>My menu bar</h1>
       </div>
     </>
   )
