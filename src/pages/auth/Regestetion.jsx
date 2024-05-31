@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { FcGoogle } from "react-icons/fc";
 import Button from '@mui/material/Button';
 
-
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import LoginImages from '../../component/Utilities/loginImage.webp'
 import Images from '../../component/Utilities/Images';
@@ -22,6 +22,34 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Regestetion = () => {
+
+  const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
+  const formik = useFormik({
+    initialValues: {
+      signupmail: '',
+      signUppassword: '',
+      fullname: '',
+    },
+
+    validationSchema: Yup.object({
+    
+      signupmail: Yup.string()
+      .email('Invalid email address')
+      .matches(emailRegx , "Enter Your Full mail")
+      .required('Required'),
+  
+      signUppassword: Yup.string()
+        .max(15, 'Must be 15 characters or less')
+        .min(5, "minum 5 charecter")
+        .required('Required')
+    }),
+
+    onSubmit: values => {
+      // alert(JSON.stringify(values, null, 2));
+      console.log(values);
+    }
+  })
+
   return (
     <>
       <div id="signUpSection">
@@ -34,16 +62,49 @@ const Regestetion = () => {
                     Get started with easily register
                   </h1>
                   <p>Free register and you can enjoy it</p>
-                  <div className="inputTxt">
-                    <TextField id="outlined-basic" label="Email Address" variant="outlined" className='inputItem'/>
-                  </div>
-                  <div className="inputTxt">
-                    <TextField id="outlined-basic" label="Full Name" variant="outlined" className='inputItem'/>
-                  </div>
-                  <div className="inputTxt">
-                    <TextField id="outlined-basic" label="Password" variant="outlined" className='inputItem'/>
-                  </div>
-                  <Button variant="contained" className='SignUpBtn'>Sign Up</Button>
+                  <form onSubmit={formik.handleSubmit}>
+
+                    <div className="inputTxt">
+                      <TextField 
+                      id="signupmail" 
+                      label="Email Address" 
+                      variant="standard" 
+                      name="signupmail"
+                      type="email"
+                      onChange={formik.handleChange} 
+                      value={formik.values.signupmail} 
+                      className='inputItem'/>
+                      {formik.touched.signupmail && formik.errors.signupmail ? (
+                      <div>{formik.errors.signupmail}</div>
+                      ) : null}
+                    </div>
+                    <div className="inputTxt">
+                      <TextField 
+                        id="fullname" 
+                        label="fullname" 
+                        variant="standard" 
+                        name="fullname"
+                        type="text"
+                        onChange={formik.handleChange} 
+                        value={formik.values.fullname} 
+                        className='inputItem'/>
+                    </div>
+                    <div className="inputTxt">
+                      <TextField 
+                      id="signUppassword" 
+                      label="signUppassword" 
+                      variant="standard" 
+                      name="signUppassword"
+                      type="password"
+                      onChange={formik.handleChange} 
+                      value={formik.values.signUppassword} 
+                      className='inputItem'/>
+                      {formik.touched.signUppassword && formik.errors.signUppassword ? (
+                      <div>{formik.errors.signUppassword}</div>
+                      ) : null}
+                    </div>
+                    <Button variant="contained" className='SignUpBtn' type='submit'>Sign Up</Button>
+                  </form>
                   <p>
                     Alredy have an account ? <Link to="/">Sign In</Link>
                   </p>
