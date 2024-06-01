@@ -9,9 +9,12 @@ import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 import LoginImages from '../../component/Utilities/loginImage.webp'
 import Images from '../../component/Utilities/Images';
 import { Link } from 'react-router-dom';
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,6 +25,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Regestetion = () => {
+
+  const auth = getAuth();
 
   const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
   const formik = useFormik({
@@ -44,9 +49,22 @@ const Regestetion = () => {
         .required('Required')
     }),
 
-    onSubmit: values => {
+    onSubmit: (values,actions) => {
       // alert(JSON.stringify(values, null, 2));
-      console.log(values);
+      
+      signInWithEmailAndPassword(auth, signupmail, signUppassword)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          // ...
+          console.log(userCredential);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+
+        actions.resetForm();
     }
   })
 
