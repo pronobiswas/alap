@@ -5,11 +5,13 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import firebaseConfig from '../../configaretion/FirebaseConfig';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,createUserWithEmailAndPassword, sendEmailVerification ,updateProfile } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
 import LoginImages from '../../component/Utilities/loginImage.webp'
 import Images from '../../component/Utilities/Images';
@@ -27,6 +29,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const Regestetion = () => {
 
   const auth = getAuth();
+  const db = getDatabase();
 
   const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
   const formik = useFormik({
@@ -50,22 +53,38 @@ const Regestetion = () => {
     }),
 
     onSubmit: (values,actions) => {
-      // alert(JSON.stringify(values, null, 2));
-      
-      signInWithEmailAndPassword(auth, signupmail, signUppassword)
-        .then((userCredential) => {
-          // Signed in 
-          const user = userCredential.user;
-          // ...
-          console.log(userCredential);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-        });
 
-        actions.resetForm();
+      const auth = getAuth();
+        createUserWithEmailAndPassword(auth, values.signupmail, values.signUppassword)
+         .then((userCredential) => {
+            const user = userCredential.user;
+            sendEmailVerification(auth.currentUser)
+            .then(() => {
+              updateProfile(auth.currentUser, {
+                displayName: values.fullname, 
+                photoURL: "https://example.com/user/profile.jpg"
+              }).then(() => {
+                  set(ref(db, 'users/' + userCredential.user.uid), {
+                  username: userCredential.user.displayName,
+                  email: userCredential.user.email,
+                  profile_picture : "imageUrl"
+                });
+              }).catch((error) => {
+                console.log("filed");
+              });
+              console.log(values);
+              console.log(userCredential);
+            });
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+          });
+          
+            
     }
+
   })
 
   return (
