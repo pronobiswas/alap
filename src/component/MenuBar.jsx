@@ -5,6 +5,13 @@ const MenuBar = () => {
     <>
       <div id="menuComponent">
         <h1>My menu bar</h1>
+        <ul>
+          <li>menu Item</li>
+          <li>menu Item</li>
+          <li>menu Item</li>
+          <li>menu Item</li>
+          <li>menu Item</li>
+        </ul>
       </div>
     </>
   )
