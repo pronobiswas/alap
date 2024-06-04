@@ -19,7 +19,7 @@ import LoginImages from '../../component/Utilities/loginImage.webp'
 import Images from '../../component/Utilities/Images';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { ThreeDots } from 'react-loader-spinner';
+import { Hourglass, Puff, ThreeDots } from 'react-loader-spinner';
 
 
 
@@ -31,6 +31,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Regestetion = () => {
+
+  const [buffLoader, setbuffLoader] =useState(false)
   const [loader, setLoader] = useState(false);
   const auth = getAuth();
   const db = getDatabase();
@@ -60,6 +62,7 @@ const Regestetion = () => {
     onSubmit: (values,actions) => {
 
       setLoader(true);
+      setbuffLoader(true)
 
       const auth = getAuth();
         createUserWithEmailAndPassword(auth, values.signupmail, values.signUppassword)
@@ -77,6 +80,7 @@ const Regestetion = () => {
                   profile_picture : "imageUrl"
                 }).then(()=>{
                   setLoader(false)
+                  setbuffLoader(false)
                   toast("Regestetion successfull")
                   setTimeout(()=>{
                     navigate("/")
@@ -84,6 +88,7 @@ const Regestetion = () => {
                 });
               }).catch((error) => {
                 console.log("filed");
+                setbuffLoader(false)
               });
               console.log(values);
               console.log(userCredential);
@@ -105,6 +110,24 @@ const Regestetion = () => {
     <>
       <div id="signUpSection">
         <Box sx={{ flexGrow: 1 }}>
+          {
+            buffLoader 
+            &&   
+          <div className="bufLoader">
+            <div className="buf">
+            <Hourglass
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="hourglass-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            colors={['#fff', '#fff']}
+            />
+            </div>
+          </div>
+          }
+            
         <ToastContainer
           position="top-right"
           autoClose={2000}

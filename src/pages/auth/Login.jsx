@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -13,11 +13,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 import LoginImages from '../../component/Utilities/loginImage.webp'
 import Images from '../../component/Utilities/Images';
 import { Link } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -48,6 +50,8 @@ const Login = () => {
   const handleClose = () => setOpen(false);
   const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
   const auth = getAuth();
+  const navigate = useNavigate();
+  
 
   const formik = useFormik({
     initialValues: {
@@ -76,12 +80,12 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+          navigate("/home");
   
         })
         .catch((error) => {
-          // const errorCode = error.code;
-          // const errorMessage = error.message;
           console.log("problem ache");
+          toast("Creadential Error");
         });
     }
   })
@@ -89,6 +93,19 @@ const Login = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
+        
+      <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Grid container>
 
           <Grid item xs={6} className='center'>
