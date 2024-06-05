@@ -79,9 +79,12 @@ const Login = () => {
       signInWithEmailAndPassword(auth, values.email,values.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-          navigate("/home");
-  
+          console.log(user.emailVerified);
+          if(user.emailVerified){
+            navigate("/home") 
+          }else{
+            toast("verify your mail")
+          }
         })
         .catch((error) => {
           console.log("problem ache");
