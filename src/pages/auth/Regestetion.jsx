@@ -41,19 +41,19 @@ const Regestetion = () => {
   const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
   const formik = useFormik({
     initialValues: {
-      signupmail: '',
-      signUppassword: '',
+      email: '',
+      password: '',
       fullname: '',
     },
 
     validationSchema: Yup.object({
     
-      signupmail: Yup.string()
+      email: Yup.string()
       .email('Invalid email address')
       .matches(emailRegx , "Enter Your Full mail")
       .required('Required'),
   
-      signUppassword: Yup.string()
+      password: Yup.string()
         .max(15, 'Must be 15 characters or less')
         .min(5, "minum 5 charecter")
         .required('Required')
@@ -65,7 +65,7 @@ const Regestetion = () => {
       setbuffLoader(true)
 
       const auth = getAuth();
-        createUserWithEmailAndPassword(auth, values.signupmail, values.signUppassword)
+        createUserWithEmailAndPassword(auth, values.email, values.password)
          .then((userCredential) => {
             const user = userCredential.user;
             sendEmailVerification(auth.currentUser)
@@ -154,16 +154,16 @@ const Regestetion = () => {
 
                     <div className="inputTxt">
                       <TextField 
-                      id="signupmail" 
+                      id="email" 
                       label="Email Address" 
                       variant="standard" 
-                      name="signupmail"
+                      name="email"
                       type="email"
                       onChange={formik.handleChange} 
-                      value={formik.values.signupmail} 
+                      value={formik.values.email} 
                       className='inputItem'/>
-                      {formik.touched.signupmail && formik.errors.signupmail ? (
-                      <div>{formik.errors.signupmail}</div>
+                      {formik.touched.email && formik.errors.email ? (
+                      <div>{formik.errors.email}</div>
                       ) : null}
                     </div>
                     <div className="inputTxt">
@@ -179,16 +179,16 @@ const Regestetion = () => {
                     </div>
                     <div className="inputTxt">
                       <TextField 
-                      id="signUppassword" 
-                      label="signUppassword" 
+                      id="password" 
+                      label="password" 
                       variant="standard" 
-                      name="signUppassword"
+                      name="password"
                       type="password"
                       onChange={formik.handleChange} 
-                      value={formik.values.signUppassword} 
+                      value={formik.values.password} 
                       className='inputItem'/>
-                      {formik.touched.signUppassword && formik.errors.signUppassword ? (
-                      <div>{formik.errors.signUppassword}</div>
+                      {formik.touched.password && formik.errors.password ? (
+                      <div>{formik.errors.password}</div>
                       ) : null}
                     </div>
                     <Button variant="contained" className='SignUpBtn' type='submit'>

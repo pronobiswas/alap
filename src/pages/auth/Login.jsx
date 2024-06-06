@@ -12,7 +12,9 @@ import Modal from '@mui/material/Modal';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider,sendPasswordResetEmail } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+const db = getDatabase();
 import { useNavigate } from 'react-router-dom';
 
 import LoginImages from '../../component/Utilities/loginImage.webp'
@@ -46,11 +48,14 @@ const style = {
 
 const Login = () => {
   const [open, setOpen] = React.useState(false);
+  const [forgetMail, setforgetMail] = useState("")
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
   const auth = getAuth();
+  const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  console.log(forgetMail);
   
 
   const formik = useFormik({
@@ -92,6 +97,39 @@ const Login = () => {
         });
     }
   })
+  const handleGoogleSignin = ()=>{
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      let myfn=()=>{
+        set(ref(db, 'users/' + user.uid), {
+          username: user.displayName,
+          email: user.email,
+          profile_picture : user.photoURL
+        })
+      }
+      myfn()
+      console.log(user);
+    }).catch((error) => {
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      // const email = error.customData.email;
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log("user pai nai");
+      // ...
+    });
+  }
+  const handlereset=()=>{
+    sendPasswordResetEmail(auth, email)
+  .then(() => {
+    toast("forget mail send hoiche")
+  })
+  .catch((error) => {
+
+    toast("reset a problem ache")
+    // ..
+  });
+  }
    
   return (
     <>
@@ -117,7 +155,7 @@ const Login = () => {
                 <h1 className='loginHeadding'>
                   Login to your account!
                 </h1>
-                <div className="logInWithGoogle">
+                <div onClick={handleGoogleSignin} className="logInWithGoogle">
                   <span className='logInWithGoogleIcon'><FcGoogle /></span>
                   <span className='logInWithGoogleTxt'>Login with Google</span>
                 </div>
@@ -157,7 +195,7 @@ const Login = () => {
                   </div>
                   <Button variant="contained" className='loginBtn' type='submit'>LogIn to Continue</Button>
 
-                  <span onClick={handleOpen}>Forgot Password?</span>
+                  <span onClick={handleOpen} className='forgotPass'>Forgot Password?</span>
 
                 </form>
 
@@ -190,20 +228,16 @@ const Login = () => {
                     id="email" 
                     label="Email Address" 
                     variant="standard" 
-                    name="email"
+                    name="forgetemail"
                     type="email"
-                    onChange={formik.handleChange} 
-                    value={formik.values.email} 
+                    onChange={(e)=>setforgetMail(e.target.value)}
+                    value={forgetMail} 
                     className='inputItem'/>
-
-                    {formik.touched.email && formik.errors.email ? (
-                    <div>{formik.errors.email}</div>
-                    ) : null}
-
-            </div>
-            <Button variant="contained" color="success" type='submit'>Reset Password</Button>
+            </div>   
+            <Button onClick={handlereset} variant="contained" color="success" type='submit'>Reset Password</Button>
           </Box>
         </Modal>
+        
         
       </Box>
     </>
