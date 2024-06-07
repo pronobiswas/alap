@@ -13,8 +13,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider,sendPasswordResetEmail } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
-const db = getDatabase();
+// import { getDatabase, ref, set } from "firebase/database";
+// const db = getDatabase();
 import { useNavigate } from 'react-router-dom';
 
 import LoginImages from '../../component/Utilities/loginImage.webp'
@@ -101,14 +101,14 @@ const Login = () => {
     signInWithPopup(auth, provider)
     .then((result) => {
       const user = result.user;
-      let myfn=()=>{
-        set(ref(db, 'users/' + user.uid), {
-          username: user.displayName,
-          email: user.email,
-          profile_picture : user.photoURL
-        })
-      }
-      myfn()
+      // let myfn=()=>{
+      //   set(ref(db, 'users/' + user.uid), {
+      //     username: user.displayName,
+      //     email: user.email,
+      //     profile_picture : user.photoURL
+      //   })
+      // }
+      // myfn()
       console.log(user);
     }).catch((error) => {
       // const errorCode = error.code;
@@ -120,13 +120,15 @@ const Login = () => {
     });
   }
   const handlereset=()=>{
-    sendPasswordResetEmail(auth, email)
+    sendPasswordResetEmail(auth, forgetMail)
   .then(() => {
     toast("forget mail send hoiche")
+    console.log(email);
   })
   .catch((error) => {
 
     toast("reset a problem ache")
+    console.log(email);
     // ..
   });
   }
@@ -223,12 +225,12 @@ const Login = () => {
             <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom:10}}>
               Enter Your Email Address
             </Typography>
-            <div className="inputTxt">  
+            <div className="forgotMailInput">  
                     <TextField 
                     id="email" 
                     label="Email Address" 
                     variant="standard" 
-                    name="forgetemail"
+                    name="email"
                     type="email"
                     onChange={(e)=>setforgetMail(e.target.value)}
                     value={forgetMail} 

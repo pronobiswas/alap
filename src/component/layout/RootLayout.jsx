@@ -13,7 +13,7 @@ const RootLayout = () => {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container >
-          <Grid xs={2}>
+          <Grid xs={1}>
             <MenuBar/>
           </Grid>
           <Grid xs={10}>

@@ -4,10 +4,18 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-/* ===========logIn Page========= */
-/* ===========logIn Page========= */
+.mycontainer{
+    width: 100%;
+    max-width: 1248px;
+}
 .center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* ===========logIn Page========= */
+/* ===========logIn Page========= */
+.myAvatar{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,7 +49,7 @@
     height: 100%;
     object-fit: cover;
 }
-.inputTxt{
+.forgotMailInput{
     width: 100%;
     margin-bottom: 30px;
 }
@@ -87,8 +95,7 @@
 /* ========menuComponent========== */
 /* ========menuComponent========== */
 #menuComponent{
-    background: #c92d2d;
-    color: #fff;
+    color: #000000;
     padding: 20px;
     height: 100vh;
 }
@@ -160,3 +167,99 @@
 
 /* =========homePage============ */
 /* =========homePage============ */
+
+
+/* ============profile pages========= */
+/* ============profile pages========= */
+.profileHeader{
+    width: 100%;
+    height: 200px;
+    background-image: url(https://i.pinimg.com/564x/6d/db/ca/6ddbca20056bb66716eb9f2e4e020e46.jpg);
+    background-position: center;
+    background-size: 100% 100%;
+}
+.profileInfoSec{
+    width: 100%;
+    height: 200px;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: end;
+    column-gap: 50px;
+}
+
+.profilebox{
+    width: 100%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.24);
+}
+.profileImage{
+    height: 100%;
+    width: 200px;
+    border: 4px inset gray;
+}
+.profilebox{
+    display: flex;
+    column-gap: 30px;
+}
+.pbox{
+    width: 100%;
+    height: 50px;
+    border: 2px solid #fff;
+    background-color: rgba(191, 162, 162, 0.886);
+}
+/* ============profile pages========= */
+/* ============profile pages========= */
+
+/* ==========masagesPage========= */
+/* ==========masagesPage========= */
+#masagesSection{
+    width: 100%;
+    height: 100vh;
+    background: #ffffff5e;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.masageHeader{
+    height: 100px;
+    background: #00000042;
+}
+.masageBody{
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+.smsFooter{
+    height: 60px;
+    width: 100%;
+    background: #ffffff77;
+    border-bottom:5px solid #000;
+    display: flex;align-items: center;
+    justify-content: space-between;
+}
+.smsInput{
+    width: 100%;
+    display: flex;
+}
+.SmsInputFild{
+    width: 100%;
+    font-size: 24px;
+    padding: 5px 20px;
+    background-color: #00bdbd;
+    border: none;
+    outline: none;
+}
+.SmsInputFild:focus{
+    border: none;
+    outline: none;
+}
+.emojiBtn{
+    font-size: 26px;
+    border: 2px solid rgba(128, 128, 128, 0.041);
+    padding: 10px;
+    border-radius: 50%;
+    color: #00bdbd;
+    background-color: #e200e200;
+}
+/* ==========masagesPage========= */
+/* ==========masagesPage========= */

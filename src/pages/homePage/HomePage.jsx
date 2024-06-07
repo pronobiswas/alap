@@ -8,7 +8,7 @@ const HomePage = () => {
       <div id="homepage">
         <div className="content_warpper">
           <div className="allUser contentbox">
-            <h3>User List</h3>
+            <h2>User List</h2>
             <ul>
               <li>
                 <div className="userThumb">
@@ -27,27 +27,97 @@ const HomePage = () => {
                   </div>
                 </div>
               </li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
-              <li>hello</li>
+
+              <li>
+                <div className="userThumb">
+                  <div className="userIcon">
+                    <div className="myAvatar">a</div>
+                  </div>
+                  <div className="uesrDes">
+                    <h4>Prnob Biswas</h4>
+                    <p>webdesignerAndDeveloper</p>
+                  </div>
+                  <div className="usersFeature">
+                    <div className="frndBtnWarper">
+                    <Button variant="contained" className='myBtn'>Add Friend</Button>
+                    {/* <Button variant="contained" className='myBtn'>Add Friend</Button> */}
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="userThumb">
+                  <div className="userIcon">
+                    <div className="myAvatar">a</div>
+                  </div>
+                  <div className="uesrDes">
+                    <h4>Prnob Biswas</h4>
+                    <p>webdesignerAndDeveloper</p>
+                  </div>
+                  <div className="usersFeature">
+                    <div className="frndBtnWarper">
+                    <Button variant="contained" className='myBtn'>Add Friend</Button>
+                    {/* <Button variant="contained" className='myBtn'>Add Friend</Button> */}
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="userThumb">
+                  <div className="userIcon">
+                    <div className="myAvatar">a</div>
+                  </div>
+                  <div className="uesrDes">
+                    <h4>Prnob Biswas</h4>
+                    <p>webdesignerAndDeveloper</p>
+                  </div>
+                  <div className="usersFeature">
+                    <div className="frndBtnWarper">
+                    <Button variant="contained" className='myBtn'>Add Friend</Button>
+                    {/* <Button variant="contained" className='myBtn'>Add Friend</Button> */}
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="userThumb">
+                  <div className="userIcon">
+                    <div className="myAvatar">a</div>
+                  </div>
+                  <div className="uesrDes">
+                    <h4>Prnob Biswas</h4>
+                    <p>webdesignerAndDeveloper</p>
+                  </div>
+                  <div className="usersFeature">
+                    <div className="frndBtnWarper">
+                    <Button variant="contained" className='myBtn'>Add Friend</Button>
+                    {/* <Button variant="contained" className='myBtn'>Add Friend</Button> */}
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="userThumb">
+                  <div className="userIcon">
+                    <div className="myAvatar">a</div>
+                  </div>
+                  <div className="uesrDes">
+                    <h4>Prnob Biswas</h4>
+                    <p>webdesignerAndDeveloper</p>
+                  </div>
+                  <div className="usersFeature">
+                    <div className="frndBtnWarper">
+                    <Button variant="contained" className='myBtn'>Add Friend</Button>
+                    {/* <Button variant="contained" className='myBtn'>Add Friend</Button> */}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
               <li>hello</li>
               <li>hello</li>
               <li>hello</li>

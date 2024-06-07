@@ -5,6 +5,7 @@ import { IoIosSettings } from "react-icons/io";
 import { MdSms } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 
 
@@ -13,13 +14,22 @@ const MenuBar = () => {
     <>
       <div id="menuComponent">
           <Avatar
+            className='center myAvatar'
               alt="aemy Sharp"
               src="/static/images/avatar/1.jpg"
               sx={{ width: 60, height: 60 }}
             />
         <ul>
-          <li><span><IoHomeSharp /></span></li>
-          <li><span><MdSms /></span></li>
+          <li>
+            <Link to={"/profile"}>
+              <span><IoHomeSharp /></span>
+            </Link>
+          </li>
+          <li>
+            <Link to={"/masages"}>
+              <span><MdSms /></span>
+            </Link>
+          </li>
           <li><span><MdNotificationsActive /></span></li>
           <li><span><IoIosSettings /></span></li>
           <li><span><IoMdLogOut /></span></li>
