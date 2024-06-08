@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider,sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup,sendEmailVerification, GoogleAuthProvider,sendPasswordResetEmail,signOut  } from "firebase/auth";
 // import { getDatabase, ref, set } from "firebase/database";
 // const db = getDatabase();
 import { useNavigate } from 'react-router-dom';
@@ -49,13 +49,12 @@ const style = {
 const Login = () => {
   const [open, setOpen] = React.useState(false);
   const [forgetMail, setforgetMail] = useState("")
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const emailRegx = "^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$"
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const navigate = useNavigate();
-  console.log(forgetMail);
   
 
   const formik = useFormik({
@@ -79,12 +78,10 @@ const Login = () => {
 
     onSubmit: (values,actions) => {
       // alert(JSON.stringify(values, null, 2));
-      console.log(values);
-      console.log("click hoiche");
       signInWithEmailAndPassword(auth, values.email,values.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user.emailVerified);
+          localStorage.setItem("loggedInUser" , JSON.stringify(user))
           if(user.emailVerified){
             navigate("/home") 
           }else{
@@ -96,19 +93,16 @@ const Login = () => {
           toast("Creadential Error");
         });
     }
-  })
+
+  });
+
   const handleGoogleSignin = ()=>{
     signInWithPopup(auth, provider)
     .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
       const user = result.user;
-      // let myfn=()=>{
-      //   set(ref(db, 'users/' + user.uid), {
-      //     username: user.displayName,
-      //     email: user.email,
-      //     profile_picture : user.photoURL
-      //   })
-      // }
-      // myfn()
+      navigate("/home") 
       console.log(user);
     }).catch((error) => {
       // const errorCode = error.code;
@@ -132,6 +126,7 @@ const Login = () => {
     // ..
   });
   }
+  
    
   return (
     <>

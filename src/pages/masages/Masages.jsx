@@ -3,14 +3,22 @@ import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { IoSend } from "react-icons/io5";
 import { MdEmojiSymbols } from "react-icons/md";
+import { useSelector, useDispatch } from 'react-redux'
+import { loggedInUser } from '../../feature/AuthSlice';
+// import { loggedInUser } from '../../feature/AuthSlice';
 
 const Masages = () => {
+
+  const loggdata = useSelector((state) => state.loggedinUderData.value);
+  const sendsms =()=>{
+    console.log(loggdata);
+  }
   return (
     <>
       <div id="masagesSection">
 
         <div className="masageHeader">
-          <h1>Current user info</h1>
+          <h1>{loggdata.displayName}</h1>
         </div>
         <div className="masageBody">
           <div className="massageRow">
@@ -25,7 +33,7 @@ const Masages = () => {
           </div>
 
           <div className="smsSend">
-            <Button variant="contained" endIcon={<IoSend />}>Send</Button>
+            <Button onClick={sendsms} variant="contained" endIcon={<IoSend />}>Send</Button>
           </div>
            
         </div>
