@@ -19,15 +19,6 @@ const dispatch = useDispatch();
 const navigate = useNavigate();
 const loggdata  = useSelector((state) => state.loggedinUderData.value);
 
-console.log(loggdata);
-// useEffect(()=>{
-
-//   if(loggdata){
-//     navigate('/home')
-//   }else{
-//     navigate('/') 
-//   }
-// },[])
  
 let handleSignout=()=>{
   signOut(auth).then(() => {

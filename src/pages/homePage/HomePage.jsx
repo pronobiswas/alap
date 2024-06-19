@@ -1,5 +1,6 @@
 import { Button, styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getDatabase, ref, onValue } from "firebase/database";
 import { CiMenuKebab } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import Userlist from '../../component/home/Userlist';
@@ -7,7 +8,32 @@ import Friends from '../../component/home/Friends';
 
 
 const HomePage = () => {
-   let myarr= [1,2,3,4,5,6]
+
+    const db = getDatabase();
+    let [userList , setUserlist] = useState([]); 
+
+     
+
+     useEffect(
+      ()=>{
+        const userRef = ref(db , 'users');
+        onValue(
+          userRef , (snapshoot)=>{
+            let ourUser = []
+            snapshoot.forEach(
+              (item)=>{
+                ourUser.push({...item.val(),id:item.key})
+              }
+            )
+            setUserlist(ourUser)
+            console.log(ourUser);
+          }
+        )
+      },[]
+     )
+     console.log(userList);
+
+  
   return (
     <>
       <div id="homepage">
@@ -21,29 +47,28 @@ const HomePage = () => {
             </div>
 
             <h2>User List</h2>
-            {/* {
-              myarr.map(items=>
+            {
+              userList.map((item,index)=>(
                 
-                  <li>
-                    <div className="userThumb">
-                      <div className="userIcon">
-                        <div className="myAvatar">a</div>
-                      </div>
-                      <div className="uesrDes">
-                        <h4>Prnob Biswas</h4>
-                        <p>webdesignerAndDeveloper</p>
-                      </div>
-                      <div className="usersFeature">
-                        <div className="frndBtnWarper">
-                        <Button variant="contained" className='myBtn'>Add Friend</Button>
-                        
-                        </div>
-                      </div>
+                <div className="userThumb" key={index}>
+                  <div className="userIcon">
+                    <div className="myAvatar">{item.index}</div>
+                  </div>
+                  <div className="uesrDes">
+                    <h4>{item.username}</h4>
+                    <p>{item.email}</p>
+                  </div>
+                  <div className="usersFeature">
+                    <div className="frndBtnWarper">
+                    <Button variant="contained" className='myBtn'>Add Friend</Button>
+                    {/* <Button variant="contained" className='myBtn'>Add Friend</Button> */}
                     </div>
-                  </li>
+                  </div>
+                </div>
                 
-              )
-            } */}
+              ))
+            }
+            
             <ul>
               <li>
                 <div className="userThumb">
