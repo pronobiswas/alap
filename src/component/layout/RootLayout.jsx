@@ -16,7 +16,7 @@ const RootLayout = () => {
           <Grid xs={1}>
             <MenuBar/>
           </Grid>
-          <Grid xs={10}>
+          <Grid xs={11}>
             <Outlet/>
           </Grid>
         </Grid>

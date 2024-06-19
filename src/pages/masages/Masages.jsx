@@ -18,7 +18,12 @@ const Masages = () => {
       <div id="masagesSection">
 
         <div className="masageHeader">
-          <h1>{loggdata.displayName}</h1>
+          {
+            loggdata ? 
+            <h1>{loggdata.displayName}</h1>
+            :
+            <h1>Guest</h1>
+          }
         </div>
         <div className="masageBody">
           <div className="massageRow">

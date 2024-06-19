@@ -22,6 +22,8 @@ import Images from '../../component/Utilities/Images';
 import { Link } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux';
+import {loggedInUser} from '../../feature/AuthSlice'
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -55,7 +57,7 @@ const Login = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -81,9 +83,11 @@ const Login = () => {
       signInWithEmailAndPassword(auth, values.email,values.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          localStorage.setItem("loggedInUser" , JSON.stringify(user))
           if(user.emailVerified){
+            localStorage.setItem("loggedInUser" , JSON.stringify(user));
+            dispatch(loggedInUser(user))
             navigate("/home") 
+            
           }else{
             toast("verify your mail")
           }

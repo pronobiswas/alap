@@ -11,15 +11,18 @@ import Regestetion from './pages/auth/Regestetion';
 import HomePage from './pages/homePage/HomePage'
 import Masages from './pages/masages/Masages';
 import Profiles from './pages/profiles/Profiles';
+import IsloggedInUser from './privetRoute/IsloggedInUser'
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route element={<RootLayout/>}>
-          <Route path='/home' element={<HomePage/>}/>
-          <Route path='/masages' element={<Masages/>}/>
-          <Route path='/profile' element={<Profiles/>}/>
+        <Route element={<IsloggedInUser/>}>
+          <Route element={<RootLayout/>}>
+            <Route path='/home' element={<HomePage/>}/>
+            <Route path='/masages' element={<Masages/>}/>
+            <Route path='/profile' element={<Profiles/>}/>
+          </Route>
         </Route>
         <Route path='*' element={<ErrorPage/>}/>
         <Route path='/' element={<Login/>}/>

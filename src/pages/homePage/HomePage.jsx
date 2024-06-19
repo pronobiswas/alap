@@ -3,6 +3,7 @@ import React from 'react'
 import { CiMenuKebab } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import Userlist from '../../component/home/Userlist';
+import Friends from '../../component/home/Friends';
 
 
 const HomePage = () => {
@@ -154,6 +155,8 @@ const HomePage = () => {
               
             </ul>
           </div>
+
+          <Friends/>
 
         </div>
       </div>

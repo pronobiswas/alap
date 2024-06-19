@@ -1,38 +1,43 @@
 import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { MdDelete } from "react-icons/md";
 import { FaFolder } from "react-icons/fa";
+import { useSelector, useDispatch } from 'react-redux'
 
-const Demo = styled('div')(({ theme }) => ({
-    backgroundColor: "red",
-  }));
+
+
+
 
 const Userlist = () => {
 
+  const loggdata  = useSelector((state) => state.loggedinUderData.value);
     const auth = getAuth();
     const db = getDatabase();
 
+    let [allUsers , setAllUsers] = useState([])
+
     let handleBtn = ()=>{
-        // const starCountRef = ref(db, 'users/');
-        //     onValue(starCountRef, (snapshot) => {
-        //     const data = snapshot.val();
-        //     updateStarCount(postElement, data);
-        //     });
-        //     console.log(data);
+        const starCountRef = ref(db, 'users/');
+            onValue(starCountRef, (snapshot) => {
+            const data = snapshot.val();
+            setAllUsers(data)
+            });
+            console.log(allUsers);
+            console.log(loggdata);
     }
 
   return (
     <div>
-      <Grid item xs={12} md={6}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+      <Grid item xs={12} md={6} lg={3}>
+          <Typography sx={{ }} variant="h6" component="div">
             Avatar with text and icon
           </Typography>
-          <Demo>
-            <List >
+          
+            <List style={{margin:"0px",paddingBottom:"0px" ,padding:"0px",background:"gray",}}>
               
-                <ListItem
+                <ListItem  style={{pt:0, pb:0 ,mb:0}}
                   secondaryAction={
                     <IconButton edge="end" aria-label="delete">
                       <button onClick={handleBtn}>hello</button>
@@ -52,7 +57,7 @@ const Userlist = () => {
                 </ListItem>,
               
             </List>
-          </Demo>
+          
       </Grid>
     </div>
   )

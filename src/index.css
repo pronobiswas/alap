@@ -5,6 +5,7 @@
     box-sizing: border-box;
     font-family: sans-serif;
 }
+
 .mycontainer{
     width: 100%;
     max-width: 1248px;
@@ -124,7 +125,7 @@
 .content_warpper{
     margin-left: 20px;
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     gap: 20px;
     padding: 20px 0;
     background: #00000009;
@@ -197,6 +198,20 @@ li{list-style-type: none;}
     justify-content: end;
     row-gap: 12px;
 }
+
+/* =============friends========= */
+/* #friends{
+    width: 100%;
+    max-width: 344px;
+    background: #f8d3d3;
+    padding: 10px;
+}
+.friendsListBox{
+    width: 100%;
+    height: 400px;
+    background: #000;
+} */
+/* =============friends========= */
 
 
 /* =========homePage============ */

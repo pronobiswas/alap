@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MdNotificationsActive } from "react-icons/md";
 import { IoHomeSharp } from "react-icons/io5";
 import { IoIosSettings } from "react-icons/io";
@@ -7,7 +7,6 @@ import { IoMdLogOut } from "react-icons/io";
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-
 import { getAuth, signOut } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -16,34 +15,50 @@ import { useSelector, useDispatch } from 'react-redux'
 
 const MenuBar = () => {
 const auth = getAuth();
-const loggdata = useSelector((state) => state.loggedinUderData.value);
 const dispatch = useDispatch();
-const navigate = useNavigate()
+const navigate = useNavigate();
+const loggdata  = useSelector((state) => state.loggedinUderData.value);
 
-  const handleSignOut =()=>{
-    signOut(auth).then(() => {
-      navigate("/")
-      localStorage.removeItem("loggedInUser");
-      dispatch(loggdata(null))
-      console.log(loggdata);
-    }).catch((error) => {
-      // An error happened.
-      console.log("signOut korte pari nai")
-    });
-  }
+console.log(loggdata);
+// useEffect(()=>{
+
+//   if(loggdata){
+//     navigate('/home')
+//   }else{
+//     navigate('/') 
+//   }
+// },[])
+ 
+let handleSignout=()=>{
+  signOut(auth).then(() => {
+    navigate('/')
+    localStorage.removeItem("loggedInUser")
+    dispatch(loggedInUser(null))
+  }).catch((error) => {
+    // An error happened.
+  });
+}
+
+let moveProfile=()=>{
+  navigate('/profile')
+}
+  
   return (
     <>
       <div id="menuComponent">
+        <div onClick={moveProfile}>
           <Avatar
             className='center myAvatar'
-              alt={loggdata.displayName}
+              alt={loggdata ? loggdata.displayName : "Guest" }
+              
               src="/static/images/avatar/1.jpg"
               sx={{ width: 60, height: 60 }}
             />
-            <p>{loggdata.displayName}</p>
+            <p>{loggdata ? loggdata.displayName : "Guest" }</p>
+        </div>
         <ul>
           <li>
-            <Link to={"/profile"}>
+            <Link to={"/home"}>
               <span><IoHomeSharp /></span>
             </Link>
           </li>
@@ -54,8 +69,8 @@ const navigate = useNavigate()
           </li>
           <li><span><MdNotificationsActive /></span></li>
           <li><span><IoIosSettings /></span></li>
-          <li onClick={handleSignOut}>
-            <span><IoMdLogOut /></span>
+          <li >
+            <span onClick={handleSignout}><IoMdLogOut /></span>
           </li>
           
           
