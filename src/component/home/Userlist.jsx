@@ -1,5 +1,5 @@
 import { Avatar, Button, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { MdDelete } from "react-icons/md";
@@ -16,16 +16,37 @@ const Userlist = () => {
     const auth = getAuth();
     const db = getDatabase();
 
-    let [allUsers , setAllUsers] = useState([])
+    let [friendRequest , setFriendRequest] = useState([])
+    let[confirmCancel , setConfirmCancel] = useState(false)
 
-    let handleBtn = ()=>{
-        const starCountRef = ref(db, 'users/');
-            onValue(starCountRef, (snapshot) => {
-            const data = snapshot.val();
-            setAllUsers(data)
-            });
-            console.log(allUsers);
-            console.log(loggdata);
+    useEffect(
+      ()=>{
+        const userRef = ref(db , 'frndRequest');
+        onValue(
+          userRef , (snapshoot)=>{
+            let ourUser = []
+            snapshoot.forEach(
+              (item)=>{
+                if( item.key != loggdata.uid){
+                  ourUser.push({...item.val(),id:item.key})
+                }
+                
+              }
+            )
+            setFriendRequest(ourUser);
+          }
+        )
+      },[]
+     );
+
+     
+
+    let handleConfirm = ()=>{
+        console.log(friendRequest);
+    }
+
+    let handleCancel = ()=>{
+
     }
 
   return (
@@ -36,28 +57,29 @@ const Userlist = () => {
           </Typography>
 
           {
-            [1,2,3,4,5,6].map((index,item)=>(
+            friendRequest.map((item,index)=>(
               <List style={{}}>
+
+                    <ListItem key={index} style={{pt:0, pb:0 ,mb:0}}
+                      secondaryAction={
+                        confirmCancel ?
+                        <Button onClick={handleConfirm} variant="contained">Confirm</Button>
+                        :
+                        <Button onClick={handleCancel} variant="contained">cancel</Button>
+                      }
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                            <p>{item.receverUserName}</p>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={item.receverUserName}
+                        secondary={item.receverEmail}
+                      />
+                    </ListItem>,
+                  
                 
-                  <ListItem  style={{pt:0, pb:0 ,mb:0}}
-                    secondaryAction={
-                      <IconButton edge="end" aria-label="delete">
-                        <Button onClick={handleBtn}><MdDelete /></Button>
-
-                      </IconButton>
-
-                    }
-                  >
-                    <ListItemAvatar>
-                      <Avatar>
-                          <FaFolder />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Single-line item"
-                      secondary='hello world'
-                    />
-                  </ListItem>,
                 
               </List>
             ))
