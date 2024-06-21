@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector, useDispatch } from 'react-redux'
 import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import { FaUserAlt } from "react-icons/fa";
@@ -6,6 +8,35 @@ import { TbFriendsOff } from "react-icons/tb";
 import { ImBlocked } from "react-icons/im";
 
 const Friends = () => {
+
+  const db = getDatabase();
+  const loggdata  = useSelector((state) => state.loggedinUderData.value);
+  const [frds , setFrds] = useState([])
+
+  useEffect(
+    ()=>{
+      const userRef = ref(db , 'frndRequest');
+      onValue(
+        userRef , (snapshoot)=>{
+          let ourUser = []
+          snapshoot.forEach(
+            (item)=>{
+              if(item.val().senderUid == loggdata.uid || loggdata.uid ==item.val().receverUid){
+                ourUser.push(item.val().senderUid +  item.val().receverUid)
+                console.log(item.val().senderUid);
+              }
+              
+            }
+          )
+          setFrds(ourUser);
+        }
+      )
+    },[]
+   );
+   console.log(frds);
+
+
+
   return (
     <>
     <Box
@@ -21,66 +52,46 @@ const Friends = () => {
             My Friends
           </Typography>
           <>
-            <List className=''>
-              
-                <ListItem  style={{borderBottom:'1px solid gray'}}
-                  secondaryAction={
-                    <IconButton edge="end">
-                      <button >hello</button>
-                    </IconButton>
+            <List >
+              {
+                console.log()
+              }
+                
+                {
+                  frds.map((item , index)=>(
+                    <ListItem key={index}  style={{borderBottom:'1px solid gray'}}
+                      secondaryAction={
+                        <span>
+                          {
+                            frds.includes(loggdata.uid + item.id) || frds.includes(item.id + loggdata.uid)
+                            ?
+                            <button ><TbFriendsOff />h</button>
 
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                        <FaUserAlt />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary='hello world'
-                  />
-                </ListItem>
+                            :
+                            <button ><ImBlocked /></button>
+                          }
 
-                <ListItem  style={{borderBottom:'1px solid gray'}}
-                  secondaryAction={
-                    <IconButton edge="end">
-                      <button ><TbFriendsOff /></button>
-                      <button ><ImBlocked /></button>
-                    </IconButton>
-                    
+                          {
+                            console.log(item.id)
+                          }
+                        </span>
+                        
+                      }
+                      
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                            <FaUserAlt  />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Single-line item"
+                        secondary='hello world'
+                      />
+                    </ListItem>
+                  ))
+                }
 
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                        <FaUserAlt  />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary='hello world'
-                  />
-                </ListItem>
-
-                <ListItem  style={{borderBottom:'1px solid gray'}}
-                  secondaryAction={
-                    <IconButton edge="end">
-                      <button >hello</button>
-                    </IconButton>
-
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                        <FaUserAlt  />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary='hello world'
-                  />
-                </ListItem>
                 
               
             </List>

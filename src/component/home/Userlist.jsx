@@ -27,8 +27,9 @@ const Userlist = () => {
             let ourUser = []
             snapshoot.forEach(
               (item)=>{
-                if( item.key != loggdata.uid){
+                if(loggdata.uid  == item.val().receverUid){
                   ourUser.push({...item.val(),id:item.key})
+                  // console.log(item.val().senderUid);
                 }
                 
               }
@@ -42,7 +43,7 @@ const Userlist = () => {
      
 
     let handleConfirm = ()=>{
-        console.log(friendRequest);
+        console.log();
     }
 
     let handleCancel = ()=>{
@@ -52,8 +53,8 @@ const Userlist = () => {
   return (
     <div>
       <Grid item xs={12} md={6} lg={3}>
-          <Typography sx={{ }} variant="h6" component="div">
-            Avatar with text and icon
+          <Typography sx={{ }} variant="h5" component="div">
+            Friend request
           </Typography>
 
           {
