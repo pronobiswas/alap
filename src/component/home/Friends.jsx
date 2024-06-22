@@ -23,7 +23,7 @@ const Friends = () => {
             (item)=>{
               if(item.val().senderUid == loggdata.uid || loggdata.uid ==item.val().receverUid){
                 ourUser.push(item.val().senderUid +  item.val().receverUid)
-                console.log(item.val().senderUid);
+                // console.log(item.val().senderUid);
               }
               
             }
@@ -33,7 +33,7 @@ const Friends = () => {
       )
     },[]
    );
-   console.log(frds);
+  //  console.log(frds);
 
 
 
@@ -72,7 +72,7 @@ const Friends = () => {
                           }
 
                           {
-                            console.log(item.id)
+                            // console.log(item.id)
                           }
                         </span>
                         
