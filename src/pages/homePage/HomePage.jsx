@@ -79,9 +79,12 @@ const HomePage = () => {
        onValue(usersRef, (snapshot) => {
          let arr = []
          snapshot.forEach((item)=>{
+          
             
-            if(item.val().senderUid == loggdata.uid || item.val().receverUid == loggdata.uid){
+            if(item.val().senderUid == loggdata.uid){
               arr.push(item.val().senderUid + item.val().receverUid)
+            }else if(item.val().receverUid == loggdata.uid){
+              arr.push( item.val().receverUid + item.val().senderUid )
             }
           })
           setAddCancel(arr)
@@ -119,16 +122,17 @@ const HomePage = () => {
                     <div className="usersFeature">
                       <div className="frndBtnWarper">
                         {
-                          addCancel.includes(item.id + loggdata.uid ) ?
+                          addCancel.includes(loggdata.uid + item.id) || addCancel.includes(item.id + loggdata.uid ) ?
                           // true ?
                           <Button variant="contained" className='myBtn'>cancel</Button>
                           :
                           <Button variant="contained" className='myBtn' onClick={()=>handleAddFriend(item)}>Add Friend</Button>
                         }
                         {
-                          // console.log(addCancel.includes(item.id + loggdata.uid || loggdata.uid + item.id ) )
-                          console.log(loggdata.uid + item.id )
+                          // console.log(addCancel)
+                          console.log(loggdata.uid )
                           // console.log(addCancel.includes(item.id+loggdata.Uid))
+                          // console.log(addCancel.includes(loggdata.Uid + item.id) || addCancel.includes(item.id + loggdata.uid ))
                         
                         }
                         

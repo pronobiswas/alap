@@ -63,7 +63,7 @@ const Userlist = () => {
 
                     <ListItem key={index} style={{pt:0, pb:0 ,mb:0}}
                       secondaryAction={
-                        frds.includes(loggdata.uid + item.id) || frds.includes(item.id + loggdata.uid) ?
+                        friendRequest.includes(loggdata.uid + item.id) || friendRequest.includes(item.id + loggdata.uid) ?
                         <Button onClick={handleConfirm} variant="contained">Confirm</Button>
                         :
                         <Button onClick={handleCancel} variant="contained">cancel</Button>
