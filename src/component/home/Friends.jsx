@@ -53,9 +53,7 @@ const Friends = () => {
           </Typography>
           <>
             <List >
-              {
-                console.log()
-              }
+              
                 
                 {
                   frds.map((item , index)=>(

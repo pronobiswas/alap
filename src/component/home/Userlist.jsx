@@ -42,17 +42,17 @@ const Userlist = () => {
 
      
 
-    let handleConfirm = ()=>{
-        // console.log();
+    let handleConfirm = (item)=>{
+      console.log(item.id);
     }
 
-    let handleCancel = ()=>{
-
+    let handleCancel = (item)=>{
+      console.log(item.id);
     }
 
   return (
     <div>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid item xs={12} md={7} lg={4}>
           <Typography sx={{ }} variant="h5" component="div">
             Friend request
           </Typography>
@@ -63,15 +63,16 @@ const Userlist = () => {
 
                     <ListItem key={index} style={{pt:0, pb:0 ,mb:0}}
                       secondaryAction={
-                        friendRequest.includes(loggdata.uid + item.id) || friendRequest.includes(item.id + loggdata.uid) ?
-                        <Button onClick={handleConfirm} variant="contained">Confirm</Button>
-                        :
-                        <Button onClick={handleCancel} variant="contained">cancel</Button>
+                        <div style={{display:"flex",gap:"5px"}}>
+                          <Button onClick={()=>handleConfirm(item)} variant="contained">Confirm</Button>
+                          
+                          <Button onClick={()=>handleCancel(item)} variant="contained">cancel</Button>
+                        </div>
                       }
                     >
                       <ListItemAvatar>
                         <Avatar>
-                            <p>{item.receverUserName}</p>
+                            <p>{item.receverUserName}</p>z
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText

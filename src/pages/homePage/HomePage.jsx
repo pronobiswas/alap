@@ -6,6 +6,10 @@ import { CiMenuKebab } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import Userlist from '../../component/home/Userlist';
 import Friends from '../../component/home/Friends';
+import SentRequest from '../../component/home/SentRequest';
+
+
+
 
 
 const HomePage = () => {
@@ -92,7 +96,7 @@ const HomePage = () => {
         });
       },[])
       
-      console.log(addCancel);
+      // console.log(addCancel);
   
   return (
     <>
@@ -117,7 +121,7 @@ const HomePage = () => {
                     </div>
                     <div className="uesrDes">
                       <h4>{item.username}</h4>
-                      <p>{item.id}</p>
+                      <p>{item.email}</p>
                     </div>
                     <div className="usersFeature">
                       <div className="frndBtnWarper">
@@ -128,9 +132,10 @@ const HomePage = () => {
                           :
                           <Button variant="contained" className='myBtn' onClick={()=>handleAddFriend(item)}>Add Friend</Button>
                         }
+
                         {
                           // console.log(addCancel)
-                          console.log(loggdata.uid )
+                          // console.log(loggdata.uid )
                           // console.log(addCancel.includes(item.id+loggdata.Uid))
                           // console.log(addCancel.includes(loggdata.Uid + item.id) || addCancel.includes(item.id + loggdata.uid ))
                         
@@ -150,6 +155,9 @@ const HomePage = () => {
         </div>
       </div>
       <Userlist/>
+      <SentRequest/>
+      
+      
     </>
   )
 }
