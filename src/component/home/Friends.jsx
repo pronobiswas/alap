@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector, useDispatch } from 'react-redux'
-import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material';
+import { Avatar, Button, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import { FaUserAlt } from "react-icons/fa";
 import { TbFriendsOff } from "react-icons/tb";
@@ -15,15 +15,15 @@ const Friends = () => {
 
   useEffect(
     ()=>{
-      const userRef = ref(db , 'frndRequest');
+      const userRef = ref(db , 'friends');
       onValue(
         userRef , (snapshoot)=>{
           let ourUser = []
           snapshoot.forEach(
             (item)=>{
-              if(item.val().senderUid == loggdata.uid || loggdata.uid ==item.val().receverUid){
-                ourUser.push(item.val().senderUid +  item.val().receverUid)
-                // console.log(item.val().senderUid);
+              console.log(item.val());
+              if(item.val().receverId == loggdata.uid || loggdata.uid ==item.val().senderId){
+                ourUser.push({...item.val(),id:item.key})
               }
               
             }
@@ -33,7 +33,7 @@ const Friends = () => {
       )
     },[]
    );
-  //  console.log(frds);
+   console.log(frds);
 
 
 
@@ -60,18 +60,7 @@ const Friends = () => {
                     <ListItem key={index}  style={{borderBottom:'1px solid gray'}}
                       secondaryAction={
                         <span>
-                          {
-                            frds.includes(loggdata.uid + item.id) || frds.includes(item.id + loggdata.uid)
-                            ?
-                            <button ><TbFriendsOff />h</button>
-
-                            :
-                            <button ><ImBlocked /></button>
-                          }
-
-                          {
-                            // console.log(item.id)
-                          }
+                          <Button variant="outlined" color="error">Block</Button>
                         </span>
                         
                       }
@@ -83,9 +72,10 @@ const Friends = () => {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Single-line item"
-                        secondary='hello world'
+                        primary={item.receverId == loggdata.uid ? item.senderName : item.receverName  }
+                        secondary={item.receverId == loggdata.uid ? item.senderEmail :item.receveEmail}
                       />
+                      {console.log(loggdata.uid)}
                     </ListItem>
                   ))
                 }

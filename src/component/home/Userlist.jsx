@@ -1,7 +1,7 @@
-import { Avatar, Button, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material'
+import { Alert, Avatar, Button, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 import { MdDelete } from "react-icons/md";
 import { FaFolder } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux'
@@ -43,7 +43,20 @@ const Userlist = () => {
      
 
     let handleConfirm = (item)=>{
-      console.log(item.id);
+      console.log(item);
+      set(push((ref(db, 'friends/'))), {
+        receverName: loggdata.displayName,
+        receveEmail: loggdata.email,
+        receverId: loggdata.uid,
+
+        senderName: item.SenderName,
+        senderEmail: item.senderEmail,
+        senderId: item.senderUid,
+      }).then(
+
+        remove(ref(db, "frndRequest/" + item.id))
+      )
+
     }
 
     let handleCancel = (item)=>{
@@ -56,35 +69,41 @@ const Userlist = () => {
           <Typography sx={{ }} variant="h5" component="div">
             Friend request
           </Typography>
-
+          
           {
-            friendRequest.map((item,index)=>(
-              <List style={{}}>
-
-                    <ListItem key={index} style={{pt:0, pb:0 ,mb:0}}
-                      secondaryAction={
-                        <div style={{display:"flex",gap:"5px"}}>
-                          <Button onClick={()=>handleConfirm(item)} variant="contained">Confirm</Button>
-                          
-                          <Button onClick={()=>handleCancel(item)} variant="contained">cancel</Button>
-                        </div>
-                      }
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                            <p>{item.receverUserName}</p>z
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={item.receverUserName}
-                        secondary={item.receverEmail}
-                      />
-                    </ListItem>,
+            friendRequest.length > 0 
+            ?
+            
+              friendRequest.map((item,index)=>(
+                <List style={{}}>
+  
+                      <ListItem key={index} style={{pt:0, pb:0 ,mb:0}}
+                        secondaryAction={
+                          <div style={{display:"flex",gap:"5px"}}>
+                            <Button onClick={()=>handleConfirm(item)} variant="contained">Confirm</Button>
+                            
+                            <Button onClick={()=>handleCancel(item)} variant="contained">cancel</Button>
+                          </div>
+                        }
+                      >
+                        <ListItemAvatar>
+                          <Avatar>
+                              <p>{item.receverUserName}</p>z
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={item.SenderName}
+                          secondary={item.senderEmail}
+                        />
+                      </ListItem>,
+                    
                   
-                
-                
-              </List>
-            ))
+                  
+                </List>
+              ))
+            
+            :
+            <Alert severity="info">No Request Found.</Alert>
           }
           
           

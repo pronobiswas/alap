@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import React, { useEffect, useState } from 'react'
 import { BsDisplay } from "react-icons/bs";
@@ -43,6 +43,8 @@ const SentRequest = () => {
       <h3>sent request</h3>
       <div>
         {
+          sentReq.length > 0
+          ?
             sentReq.map((item ,index)=>(
                 
                 <div key={index} style={{display:'flex', gap: "40px", margin:"10px"}}>
@@ -56,6 +58,8 @@ const SentRequest = () => {
                 </div>
                
             ))
+            :
+            <Alert severity="info">No Request Found.</Alert>
         }
       </div>
     </div>

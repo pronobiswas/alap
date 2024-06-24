@@ -16,8 +16,8 @@ const HomePage = () => {
 
     const db = getDatabase();
     let [userList , setUserlist] = useState([]); 
-    let [friendRequest , setFriendRequest] = useState([])
-    let [requestedFriend , setRequestedFriend] = useState([])
+    let [friends , setFriends] = useState([])
+    // let [requestedFriend , setRequestedFriend] = useState([])
     let[addCancel , setAddCancel] = useState([])
     const loggdata  = useSelector((state) => state.loggedinUderData.value);
 
@@ -57,27 +57,37 @@ const HomePage = () => {
      }
      
 
-    //  //  ==friendRequest list===
+   
+    //============friend list===========
+
      useEffect(
       ()=>{
-        const frndRef = ref(db , 'frndRequest');
+        const frndsRef = ref(db , 'friends');
         onValue(
-          frndRef , (snapshoot)=>{
-            let frndRqst = []
+          frndsRef , (snapshoot)=>{
+            let frnds = []
             snapshoot.forEach(
               (item)=>{
+                // console.log(item.val());
+
+                if(item.val().receverId == loggdata.uid){
+                  frnds.push(item.val().receverId + item.val().senderId)
+                }
+                else if(item.val().senderId == loggdata.uid){
+                  frnds.push( item.val().senderId + item.val().receverId )
+                }
                 
-                frndRqst.push({...item.val(),id:item.key})
-                // setFriendRequest(frndRqst);
+                setFriends(frnds);
               }
             )
-            // console.log(friendRequest);
           }
         )
       },[]
      )
+     console.log(friends);
 
-     //friend list
+      //  ==friendRequest list===
+
      useEffect(()=>{
        const usersRef = ref(db, 'frndRequest');
        onValue(usersRef, (snapshot) => {
@@ -126,15 +136,20 @@ const HomePage = () => {
                     <div className="usersFeature">
                       <div className="frndBtnWarper">
                         {
-                          addCancel.includes(loggdata.uid + item.id) || addCancel.includes(item.id + loggdata.uid ) ?
-                          // true ?
+                          addCancel.includes(loggdata.uid + item.id) || addCancel.includes(item.id + loggdata.uid ) 
+                          ?
                           <Button variant="contained" className='myBtn'>cancel</Button>
                           :
+                          friends.includes(loggdata.uid + item.id) || friends.includes(item.id + loggdata.uid )
+                          ?
+                          <Button variant="contained" color="success">Friend</Button>
+                          :
                           <Button variant="contained" className='myBtn' onClick={()=>handleAddFriend(item)}>Add Friend</Button>
+                          
                         }
 
                         {
-                          // console.log(addCancel)
+                          // console.log(item)
                           // console.log(loggdata.uid )
                           // console.log(addCancel.includes(item.id+loggdata.Uid))
                           // console.log(addCancel.includes(loggdata.Uid + item.id) || addCancel.includes(item.id + loggdata.uid ))
