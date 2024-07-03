@@ -33,7 +33,6 @@ const Friends = () => {
       )
     },[]
    );
-   console.log(frds);
 
 
 

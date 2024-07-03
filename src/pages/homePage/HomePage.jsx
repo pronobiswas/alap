@@ -84,7 +84,7 @@ const HomePage = () => {
         )
       },[]
      )
-     console.log(friends);
+    //  console.log(friends);
 
       //  ==friendRequest list===
 
