@@ -7,16 +7,20 @@ import { CiSearch } from "react-icons/ci";
 import { MdEmojiSymbols } from "react-icons/md";
 import { useSelector, useDispatch } from 'react-redux'
 import { loggedInUser } from '../../feature/AuthSlice';
-// import { loggedInUser } from '../../feature/AuthSlice';
+import { activeChatUser } from '../../feature/activeMsgSlice';
 
 import { getDatabase, ref, onValue } from "firebase/database";
+
 
 const Masages = () => {
 
   const db = getDatabase();
+  const dispatch = useDispatch();
   const loggdata  = useSelector((state) => state.loggedinUderData.value);
+  const activeChatData = useSelector((state) => state.activeChatUser.value)
   const [frds , setFrds] = useState([])
 
+  
   useEffect(
     ()=>{
       const userRef = ref(db , 'friends');
@@ -25,7 +29,7 @@ const Masages = () => {
           let ourUser = []
           snapshoot.forEach(
             (item)=>{
-              console.log(item.val());
+              
               if(item.val().receverId == loggdata.uid || loggdata.uid ==item.val().senderId){
                 ourUser.push({...item.val(),id:item.key})
               }
@@ -42,6 +46,13 @@ const Masages = () => {
     console.log(frds);
 
   }
+  let handleSmSfrndList =(item)=>{
+    dispatch(activeChatUser(item))
+    console.log(activeChatData.receverId);
+    
+  }
+
+ 
   return (
     <>
       <div id="masagesSection">
@@ -61,28 +72,39 @@ const Masages = () => {
                   frds.map((item , index)=>(
                     
                       <ul key={index}>
-                        <li>
+                        <li onClick={()=>handleSmSfrndList(item)}>
                           <div className="avatarBox"></div>
                           <div className="userDetails">
                             <h3>{item.receverId == loggdata.uid ? item.senderName : item.receverName}</h3>
                             <p>{item.receverId == loggdata.uid ? item.senderEmail :item.receveEmail}</p>
                           </div>
+                          
                         </li>
                       </ul>
                   ))
                 }
           </div>
         </div>
+        {
+          // console.log(activeChatData.receverId)
+          // console.log(activeChatData.senderId == loggdata.uid)
+        }
 
         <div className="masageBox">
+
           <div className="masageHeader">
             {
-              loggdata ? 
-              <h1>{loggdata.displayName}</h1>
+               !activeChatData ?
+              <h1>select a user</h1>
               :
-              <h1>Guest</h1>
+              <h1>
+                {
+                  activeChatData.receverId== loggdata.uid ? activeChatData.senderName : activeChatData.receverName
+                }
+              </h1>
             }
           </div>
+
           <div className="masageBody">
             <div className="massageRow receiver">
               <div className="smsBox ">
