@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loggedInUser } from '../../feature/AuthSlice';
 import { activeChatUser } from '../../feature/activeMsgSlice';
 
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, push, set } from "firebase/database";
 
 
 const Masages = () => {
@@ -18,9 +18,8 @@ const Masages = () => {
   const dispatch = useDispatch();
   const loggdata  = useSelector((state) => state.loggedinUderData.value);
   const activeChatData = useSelector((state) => state.activeChatUser.value)
-  const [frds , setFrds] = useState([])
-
-  
+  const [frds , setFrds] = useState([]);
+  const [smsTxt , setSmStext] = useState();
   useEffect(
     ()=>{
       const userRef = ref(db , 'friends');
@@ -43,9 +42,17 @@ const Masages = () => {
    );
   
   const sendsms =()=>{
-    console.log(frds);
+    console.log(smsTxt);
+    set(push(ref(db, 'allMsg/')), {
+      username: "name",
+      email: "email",
+      profile_picture : "picture" ,
+      chatSmg : smsTxt
+    }).then(console.log("database a data geiche"));
 
   }
+
+
   let handleSmSfrndList =(item)=>{
     dispatch(activeChatUser(item))
     console.log(activeChatData.receverId);
@@ -106,24 +113,37 @@ const Masages = () => {
           </div>
 
           <div className="masageBody">
-            <div className="massageRow receiver">
-              <div className="smsBox ">
-                <div className="avatarBox"></div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus natus minima temporibus saepe delectus ad nihil quas veniam sapiente maiores, voluptatem nisi reprehenderit facilis doloribus esse explicabo illum modi dolorum ut quisquam? Mollitia eveniet, aliquid recusandae perferendis in tenetur sequi!</p>
-              </div>
-            </div>
-            <div className="massageRow sender">
-              <div className="smsBox">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus natus minima temporibus saepe delectus ad nihil quas veniam sapiente maiores, voluptatem nisi reprehenderit facilis doloribus esse explicabo illum modi dolorum ut quisquam? Mollitia eveniet, aliquid recusandae perferendis in tenetur sequi!</p>
-                <div className="avatarBox"></div>
-              </div>
-            </div>
+
+            {!activeChatData ?
+
+              <>
+                <h1>no User selected</h1>
+              </>
+              :
+              <>
+                <div className="massageRow receiver">
+                  <div className="smsBox ">
+                    <div className="avatarBox"></div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus natus minima temporibus saepe delectus ad nihil quas veniam sapiente maiores, voluptatem nisi reprehenderit facilis doloribus esse explicabo illum modi dolorum ut quisquam? Mollitia eveniet, aliquid recusandae perferendis in tenetur sequi!</p>
+                  </div>
+                </div>
+                <div className="massageRow sender">
+                  <div className="smsBox">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus natus minima temporibus saepe delectus ad nihil quas veniam sapiente maiores, voluptatem nisi reprehenderit facilis doloribus esse explicabo illum modi dolorum ut quisquam? Mollitia eveniet, aliquid recusandae perferendis in tenetur sequi!</p>
+                    <div className="avatarBox"></div>
+                  </div>
+                </div>
+              </>
+            }
+
+
+
           </div>
 
           <div className="smsFooter">
             
             <div className="smsInput">
-              <input type="text" className='SmsInputFild' placeholder='write your masages'/>
+              <input onChange={(e)=>setSmStext(e.target.value)} type="text" className='SmsInputFild' placeholder='write your masages'/>
               <button className='emojiBtn'><MdEmojiSymbols /></button>
             </div>
 
