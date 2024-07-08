@@ -19,7 +19,15 @@ const Masages = () => {
   const loggdata  = useSelector((state) => state.loggedinUderData.value);
   const activeChatData = useSelector((state) => state.activeChatUser.value)
   const [frds , setFrds] = useState([]);
+
+  const [masageFriends , setMasageFriends] = useState([]);
+
+  const [displayMasage , setDisplayMasages] = useState([])
+  // ==========masage value=========
   const [smsTxt , setSmStext] = useState();
+
+
+  // ***********reading Friend list data**********
   useEffect(
     ()=>{
       const userRef = ref(db , 'friends');
@@ -40,22 +48,63 @@ const Masages = () => {
       )
     },[]
    );
-  
-  const sendsms =()=>{
-    console.log(smsTxt);
-    set(push(ref(db, 'allMsg/')), {
-      username: "name",
-      email: "email",
-      profile_picture : "picture" ,
-      chatSmg : smsTxt
-    }).then(console.log("database a data geiche"));
+   
 
-  }
+ 
+ 
+   //  *********sent masages in database*******
+   const sendsms =()=>{
+     
+     set(push(ref(db, 'allMsg/')), {
+       username: loggdata.displayName,
+       email: loggdata.email,
+       profile_picture : "picture" ,
+       userId: loggdata.uid,
+ 
+       chatSmg : smsTxt ,
+ 
+       friendsName: loggdata.uid == activeChatData.receverId ?  activeChatData.senderName : activeChatData.receverName ,
+       friendsEmail : loggdata.uid == activeChatData.receverId ? activeChatData.senderEmail : activeChatData.receveEmail,
+       profile_picture : "picture" ,
+       friendsId: loggdata.uid == activeChatData.receverId ? activeChatData.senderId : activeChatData.receverId 
+ 
+     }).then(console.log("sent to database"));
+   }
+   // <<<<<<<<<<< sent Masages In DataBase >>>>>>>>>>>>
+  
+
+  //  **********reading allSms data in database************
+  useEffect(
+    ()=>{
+      const userRef = ref(db , 'allMsg');
+      onValue(
+        userRef , (snapshoot)=>{
+          let ourUser = [];
+          let activeFrndId = loggdata.uid == activeChatData?.senderId ? activeChatData?.receverId : activeChatData?.senderId ;
+          snapshoot.forEach(
+            (item)=>{
+              console.log(item.val());
+              console.log(item.val().friendsId == activeFrndId && item.val().receiverid == loggdata.uid) ;
+
+              if((item.val().userId == loggdata.uid && item.val().friendsId ==activeFrndId) || (item.val().friendsId == loggdata.uid && item.val().userId == activeFrndId)){
+                ourUser.push({...item.val() , id:item.key})
+              }
+              
+            }
+          )
+          setMasageFriends(ourUser);
+          
+        }
+        
+      )
+    },[activeChatData]
+   );
+   //  <<<<<<<<<< reading allSms data in database >>>>>>>>>>>>
 
 
   let handleSmSfrndList =(item)=>{
     dispatch(activeChatUser(item))
-    console.log(activeChatData.receverId);
+    // console.log(loggdata);
     
   }
 
@@ -93,7 +142,7 @@ const Masages = () => {
           </div>
         </div>
         {
-          // console.log(activeChatData.receverId)
+          // console.log(loggdata)
           // console.log(activeChatData.senderId == loggdata.uid)
         }
 
@@ -136,6 +185,28 @@ const Masages = () => {
               </>
             }
 
+            {console.log(masageFriends)}
+              {
+                
+                masageFriends.map((item , index)=>(
+                  
+                    <ul key={index}>
+                      {console.log(item.userId)}
+                      <li >
+                        {
+                          item.userId == loggdata.uid 
+                          ?
+                          <h2>namaskar</h2>
+                          :
+                          <p>joy horibol</p>
+
+                        }
+                      </li>
+                    </ul>
+                ))
+              }
+            
+
 
 
           </div>
@@ -148,7 +219,12 @@ const Masages = () => {
             </div>
 
             <div className="smsSend">
-              <Button onClick={sendsms} variant="contained" endIcon={<IoSend />}>Send</Button>
+              {
+                activeChatData ?
+                <Button onClick={sendsms} variant="contained" endIcon={<IoSend />}>Send</Button>
+                :
+                <span></span>
+              }
             </div>
             
           </div>
