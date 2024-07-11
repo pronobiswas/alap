@@ -83,8 +83,8 @@ const Masages = () => {
           let activeFrndId = loggdata.uid == activeChatData?.senderId ? activeChatData?.receverId : activeChatData?.senderId ;
           snapshoot.forEach(
             (item)=>{
-              console.log(item.val());
-              console.log(item.val().friendsId == activeFrndId && item.val().receiverid == loggdata.uid) ;
+              
+              // console.log(item.val().friendsId == activeFrndId && item.val().receiverid == loggdata.uid) ;
 
               if((item.val().userId == loggdata.uid && item.val().friendsId ==activeFrndId) || (item.val().friendsId == loggdata.uid && item.val().userId == activeFrndId)){
                 ourUser.push({...item.val() , id:item.key})
@@ -104,7 +104,7 @@ const Masages = () => {
 
   let handleSmSfrndList =(item)=>{
     dispatch(activeChatUser(item))
-    // console.log(loggdata);
+    
     
   }
 
@@ -162,43 +162,50 @@ const Masages = () => {
           </div>
 
           <div className="masageBody">
-
-            {!activeChatData ?
-
-              <>
-                <h1>no User selected</h1>
-              </>
-              :
-              <>
-                <div className="massageRow receiver">
-                  <div className="smsBox ">
-                    <div className="avatarBox"></div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus natus minima temporibus saepe delectus ad nihil quas veniam sapiente maiores, voluptatem nisi reprehenderit facilis doloribus esse explicabo illum modi dolorum ut quisquam? Mollitia eveniet, aliquid recusandae perferendis in tenetur sequi!</p>
-                  </div>
-                </div>
-                <div className="massageRow sender">
-                  <div className="smsBox">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus natus minima temporibus saepe delectus ad nihil quas veniam sapiente maiores, voluptatem nisi reprehenderit facilis doloribus esse explicabo illum modi dolorum ut quisquam? Mollitia eveniet, aliquid recusandae perferendis in tenetur sequi!</p>
-                    <div className="avatarBox"></div>
-                  </div>
-                </div>
-              </>
-            }
-
-            {console.log(masageFriends)}
               {
                 
                 masageFriends.map((item , index)=>(
                   
                     <ul key={index}>
-                      {console.log(item.userId)}
+                      {console.log(item)}
                       <li >
                         {
                           item.userId == loggdata.uid 
                           ?
-                          <h2>namaskar</h2>
+                          <div className="massageRow receiver">
+                            <div className="msgCL">
+                              <div className="recevrMsg">
+                                <div>
+                                  <div className="avatarBox"></div>
+                                </div>
+                                <p>{item.chatSmg}</p>
+                              </div>
+                            </div>
+                            
+                              <div className="truckTime">
+                                <span>06:10am</span>
+                                
+                              </div>
+                          </div>
                           :
-                          <p>joy horibol</p>
+                          
+                          <div className="massageRow sender">
+                            <div className="smgWarppper">
+                            <div className="smsBoxSent">
+                              <div className="smstxtwarpper">
+                                <p className='rightTxt' >{item.chatSmg}</p>
+                              </div>
+                              <div className="avatarWarpper">
+                                <div id="smsAvatarBox"></div>
+                              </div>
+                            </div>
+                            <div className="truckTime">
+                              <span>06:10am</span>
+                            </div>
+                            </div>
+                          </div>
+                          
+
 
                         }
                       </li>
